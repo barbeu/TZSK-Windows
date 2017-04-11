@@ -1,5 +1,6 @@
 package com.example.tzadmin.tzsk_windows;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,10 @@ public class LoginActivity extends AppCompatActivity {
     public void onClick (View view) {
         if(!tb_login.getText().toString().equals("") && !tb_password.getText().toString().equals("")) {
             SaveAuth.set(tb_login.getText().toString(), tb_password.getText().toString());
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        } else {
+            helper.message(this,"Логин и пароль не может быть пустым.");
         }
     }
 }
