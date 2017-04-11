@@ -2,6 +2,8 @@ package com.example.tzadmin.tzsk_windows.HttpModule;
 
 import android.os.AsyncTask;
 import android.util.Base64;
+
+import com.example.tzadmin.tzsk_windows.SaveAuthModule.SaveAuth;
 import com.example.tzadmin.tzsk_windows.helper;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -37,7 +39,7 @@ public class Http {
             try {
                 URL url = new URL(helper.httpServer + inquiry);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((helper.login + ":" + helper.psswd).getBytes(), Base64.NO_WRAP ));
+                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((SaveAuth.login + ":" + SaveAuth.psswd).getBytes(), Base64.NO_WRAP ));
                 connection.connect();
                 int code = connection.getResponseCode();
                 return connection.getResponseMessage();
@@ -58,7 +60,7 @@ public class Http {
             try {
                 URL url = new URL(helper.httpServer + inquiry);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((helper.login + ":" + helper.psswd).getBytes(), Base64.NO_WRAP ));
+                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((SaveAuth.login + ":" + SaveAuth.psswd).getBytes(), Base64.NO_WRAP ));
                 connection.setReadTimeout(10000);
                 connection.setConnectTimeout(15000);
                 connection.setRequestMethod("POST");
