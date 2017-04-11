@@ -17,27 +17,25 @@ public class SaveAuth {
     public static String psswd = "psswd";
     public static String pachAuthData = "auth.cfg";
 
-    public static void SetUp (Context context)
-    {
+    public static void SetUp (Context context) {
         file = new File(context.getExternalFilesDir(null), pachAuthData);
     }
 
     public static boolean set (String login, String passwd) {
         try {
+            SaveAuth.login = login;
+            SaveAuth.psswd = passwd;
+
             SaveAuth.clear();
             writer = new FileWriter(file, false);
             writer.write(login + "&" + passwd);
             writer.flush();
-
-            SaveAuth.login = login;
-            SaveAuth.psswd = passwd;
             return true;
         }
         catch(IOException ex){
             ex.printStackTrace();
         }
         return false;
-
     }
 
     public static void clear() {
@@ -48,20 +46,20 @@ public class SaveAuth {
     public static boolean get () {
         try {
             FileReader reader = new FileReader(file);
-            char[] buffer = new char[(int)file.length()];
-            reader.read(buffer);
-            String str = new String(buffer);
+            String str = new String();
+            int c;
+            while((c=reader.read()) != -1){
+                str += (char)c;
+            }
             String [] strings = str.split("&");
-            if(strings.length == 2) {
+            if(strings.length >= 2) {
                 SaveAuth.login = strings[0];
                 SaveAuth.psswd = strings[1];
-                return true;
             }
+        } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
-        catch(IOException ex){
-            ex.printStackTrace();
-        }
-        return false;
+        return true;
     }
 }
