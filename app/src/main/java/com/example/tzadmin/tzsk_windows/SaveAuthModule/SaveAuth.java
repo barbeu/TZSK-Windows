@@ -56,10 +56,9 @@ public class SaveAuth {
                 SaveAuth.login = strings[0];
                 SaveAuth.psswd = strings[1];
             }
+            return true;
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
-        return true;
     }
 }

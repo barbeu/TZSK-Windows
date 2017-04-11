@@ -7,7 +7,8 @@
     tools:context="com.example.tzadmin.tzsk_windows.LoginActivity">
 
     <Button
-        android:id="@+id/button"
+        android:onClick="onClick"
+        android:id="@+id/btn_login"
         android:layout_width="129dp"
         android:layout_height="39dp"
         android:text="@string/btn_login"
@@ -18,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.67" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/tb_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -31,7 +32,7 @@
         app:layout_constraintVertical_bias="0.303" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/tb_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
