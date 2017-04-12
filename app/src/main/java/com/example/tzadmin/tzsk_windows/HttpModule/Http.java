@@ -4,8 +4,11 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import com.example.tzadmin.tzsk_windows.SaveAuthModule.SaveAuth;
 import com.example.tzadmin.tzsk_windows.helper;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -19,6 +22,16 @@ import java.util.concurrent.ExecutionException;
 public class Http {
     String query = null, data = null;
     HttpResp responce = null;
+
+    private String streamToString(InputStream is) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        return sb.toString();
+    }
 
     public HttpResp GET (String inquiry) {
         query = inquiry;
@@ -58,6 +71,7 @@ public class Http {
                 connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((SaveAuth.login + ":" + SaveAuth.psswd).getBytes(), Base64.NO_WRAP ));
                 connection.connect();
                 responce = new HttpResp();
+                responce.body = streamToString(connection.getInputStream());
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
                 return responce;
@@ -93,6 +107,7 @@ public class Http {
 
                 connection.connect();
                 responce = new HttpResp();
+                responce.body = streamToString(connection.getInputStream());
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
                 return responce;

@@ -8,10 +8,16 @@ import android.view.View;
 import com.example.tzadmin.tzsk_windows.SaveAuthModule.SaveAuth;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+        test t = new test();
+    }
+
+    private void init() {
         SaveAuth.SetUp(this);
     }
 
@@ -23,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void exit() {
+    private void exit() {
         SaveAuth.clear();
         startActivity(new Intent(this, LoginActivity.class));
         finish();

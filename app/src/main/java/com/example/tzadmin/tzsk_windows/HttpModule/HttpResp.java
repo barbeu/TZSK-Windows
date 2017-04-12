@@ -7,4 +7,5 @@ package com.example.tzadmin.tzsk_windows.HttpModule;
 public class HttpResp {
     public int Code;
     public String Message;
+    public String body;
 }
