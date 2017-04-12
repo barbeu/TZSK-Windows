@@ -19,6 +19,9 @@ public class helper {
             case INTERNET_NOT_CONNECTING:
                 message = "Отсутствует интернет подключение.";
                 break;
+            case INCORRECT_AUTH_DATA:
+                message = "Логин или пароль неверный.";
+                break;
         }
         Toast toast = Toast.makeText(context, message, length);
         toast.show();
@@ -26,7 +29,8 @@ public class helper {
 
     enum MSG {
         EMPTY_AUTH_DATA,
-        INTERNET_NOT_CONNECTING
+        INTERNET_NOT_CONNECTING,
+        INCORRECT_AUTH_DATA
     }
 
 }

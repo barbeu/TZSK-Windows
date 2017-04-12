@@ -13,8 +13,8 @@ import java.io.IOException;
 public class SaveAuth {
     private static FileWriter writer = null;
     private static File file = null;
-    public static String login = "login";
-    public static String psswd = "psswd";
+    public static String login = "";
+    public static String psswd = "";
     public static String pachAuthData = "auth.cfg";
 
     public static void SetUp (Context context) {
