@@ -10,9 +10,23 @@ import android.widget.Toast;
 public class helper {
     public static String httpServer = "http://192.168.0.251/tzsk_tst/hs/JavaMobileApp/AnyInquiry/?param=";
 
-    public static void message (Context context, String message) {
-        Toast toast = Toast.makeText(context,
-                message, Toast.LENGTH_SHORT);
+    public static void message (Context context, MSG msg, Integer length) {
+        String message = null;
+        switch (msg) {
+            case EMPTY_AUTH_DATA:
+                message = "Логин и пароль не может быть пустым.";
+                break;
+            case INTERNET_NOT_CONNECTING:
+                message = "Отсутствует интернет подключение.";
+                break;
+        }
+        Toast toast = Toast.makeText(context, message, length);
         toast.show();
     }
+
+    enum MSG {
+        EMPTY_AUTH_DATA,
+        INTERNET_NOT_CONNECTING
+    }
+
 }
