@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.example.tzadmin.tzsk_windows.DatabaseModule.Database;
+import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseHelper;
+import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseModels.User;
 import com.example.tzadmin.tzsk_windows.HttpModule.Http;
 import com.example.tzadmin.tzsk_windows.HttpModule.HttpResp;
-import com.example.tzadmin.tzsk_windows.SaveAuthModule.SaveAuth;
+import static com.example.tzadmin.tzsk_windows.AuthModule.Auth.setAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,44 +22,54 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         tb_login = (EditText)findViewById(R.id.tb_login);
         tb_password = (EditText)findViewById(R.id.tb_password);
-        SaveAuth.SetUp(this);
-        isStartMainActivity();
+
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        Database.SetUp(dbHelper.getReadableDatabase());
+        User user = Database.lastLoginUser();
+
+        if(user != null) {
+            Integer dateLogin = helper.getTimeMili();
+            Database.updateUser(user.id, dateLogin);
+            startMainActivity(user.id, user.login, user.password, dateLogin);
+        }
     }
 
     public void onClick (View view) {
         if(!tb_login.getText().toString().equals("") && !tb_password.getText().toString().equals("")) {
-            SaveAuth.set(tb_login.getText().toString(), tb_password.getText().toString());
-            isStartMainActivity();
-        } else {
-            helper.message(this, helper.MSG.EMPTY_AUTH_DATA, Toast.LENGTH_SHORT);
-        }
-    }
+            String _login = tb_login.getText().toString(), _password = tb_password.getText().toString();
+            Integer dateLogin = helper.getTimeMili();
+            int id = Database.isUserExist(_login, _password);
 
-    private void isStartMainActivity () {
-        if(checkAuth()) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        }
-    }
-
-    private boolean checkAuth () {
-        try {
-            Http http = new Http();
-            if(SaveAuth.get()) {
-                HttpResp resp = http.GET("auth");
+            if(id != -1) {
+                Database.updateUser(id, dateLogin);
+                startMainActivity(id, _login, _password, dateLogin);
+            }
+            else {
+                if (!helper.InetHasConnection(this)) {
+                    helper.message(this, helper.MSG.INTERNET_NOT_CONNECTING, Toast.LENGTH_SHORT);
+                    return;
+                }
+                Http http = new Http();
+                HttpResp resp = http.GET(helper.QUERY_AUTH, _login, _password);
                 switch (resp.Code) {
-                    case 200 :
-                        return true;
-                    case 401 :
+                    case 200:
+                        id = Database.insertUser(_login, _password);
+                        startMainActivity(id, _login, _password, dateLogin);
+                        break;
+                    case 401:
                         helper.message(this, helper.MSG.INCORRECT_AUTH_DATA, Toast.LENGTH_SHORT);
                         break;
                 }
             }
-        } catch (Exception ex) {
-            helper.message(this, helper.MSG.INTERNET_NOT_CONNECTING, Toast.LENGTH_SHORT);
-            tb_login.setText(SaveAuth.login);
-            tb_password.setText(SaveAuth.psswd);
         }
-        return false;
+        else {
+            helper.message(this, helper.MSG.EMPTY_AUTH_DATA, Toast.LENGTH_SHORT);
+        }
+    }
+
+    private void startMainActivity (int id, String login, String password, Integer dateLogin) {
+        setAuth(id, login, password, dateLogin);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

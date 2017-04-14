@@ -2,7 +2,6 @@ package com.example.tzadmin.tzsk_windows.HttpModule;
 
 import android.os.AsyncTask;
 import android.util.Base64;
-import com.example.tzadmin.tzsk_windows.SaveAuthModule.SaveAuth;
 import com.example.tzadmin.tzsk_windows.helper;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,7 +19,6 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class Http {
-    String query = null, data = null;
     HttpResp responce = null;
 
     private String streamToString(InputStream is) throws IOException {
@@ -33,10 +31,9 @@ public class Http {
         return sb.toString();
     }
 
-    public HttpResp GET (String inquiry) {
-        query = inquiry;
+    public HttpResp GET (String query, String login, String password) {
         getTask task = new getTask();
-        task.execute();
+        task.execute(query, login, password);
         try {
             return task.get();
         } catch (InterruptedException e) {
@@ -47,11 +44,9 @@ public class Http {
         return null;
     }
 
-    public HttpResp POST (String inquiry, String postData) {
-        query = inquiry;
-        data = postData;
+    public HttpResp POST (String query, String login, String password, String postData) {
         postTask task = new postTask();
-        task.execute();
+        task.execute(query, login, password, postData);
         try {
             return task.get();
         } catch (InterruptedException e) {
@@ -62,18 +57,19 @@ public class Http {
         return null;
     }
 
-    class getTask extends AsyncTask<Void, Void, HttpResp> {
+    class getTask extends AsyncTask<String, Void, HttpResp> {
         @Override
-        protected HttpResp doInBackground(Void... params) {
+        protected HttpResp doInBackground(String... params) {
             try {
-                URL url = new URL(helper.httpServer + query);
+                URL url = new URL(helper.httpServer + params[helper.QUERY]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((SaveAuth.login + ":" + SaveAuth.psswd).getBytes(), Base64.NO_WRAP ));
+                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((params[helper.LOGIN] + ":" + params[helper.PASSWORD]).getBytes(), Base64.NO_WRAP ));
                 connection.connect();
                 responce = new HttpResp();
-                responce.body = streamToString(connection.getInputStream());
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
+                if(responce.Code == 200)
+                    responce.body = streamToString(connection.getInputStream());
                 return responce;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -85,13 +81,13 @@ public class Http {
         }
     }
 
-    class postTask extends AsyncTask<Void, Void, HttpResp> {
+    class postTask extends AsyncTask<String, Void, HttpResp> {
         @Override
-        protected HttpResp doInBackground(Void... inquiry) {
+        protected HttpResp doInBackground(String... params) {
             try {
-                URL url = new URL(helper.httpServer + query);
+                URL url = new URL(helper.httpServer + params[helper.QUERY]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((SaveAuth.login + ":" + SaveAuth.psswd).getBytes(), Base64.NO_WRAP ));
+                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((params[helper.LOGIN] + ":" + params[helper.PASSWORD]).getBytes(), Base64.NO_WRAP ));
                 connection.setReadTimeout(10000);
                 connection.setConnectTimeout(15000);
                 connection.setRequestMethod("POST");
@@ -100,16 +96,17 @@ public class Http {
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(data);
+                writer.write(params[helper.POST_DATA]);
                 writer.flush();
                 writer.close();
                 os.close();
 
                 connection.connect();
                 responce = new HttpResp();
-                responce.body = streamToString(connection.getInputStream());
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
+                if(responce.Code == 200)
+                    responce.body = streamToString(connection.getInputStream());
                 return responce;
 
             } catch (IOException e) {

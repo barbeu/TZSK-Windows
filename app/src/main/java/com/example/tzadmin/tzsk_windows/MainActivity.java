@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import com.example.tzadmin.tzsk_windows.SaveAuthModule.SaveAuth;
+import com.example.tzadmin.tzsk_windows.AuthModule.Auth;
+import com.example.tzadmin.tzsk_windows.DatabaseModule.Database;
+import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,23 +14,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
-    }
-
-    private void init() {
-        SaveAuth.SetUp(this);
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        Database.SetUp(dbHelper.getReadableDatabase());
     }
 
     public void onClick (View view) {
         switch (view.getId()) {
             case R.id.btn_exit:
-                exit();
+                Database.deleteUser(Auth.id);
+                startLoginActivity();
                 break;
         }
     }
 
-    private void exit() {
-        SaveAuth.clear();
+    private void startLoginActivity () {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
