@@ -8,6 +8,12 @@ import android.view.MenuItem;
 import com.example.tzadmin.tzsk_windows.AuthModule.Auth;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.Database;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseHelper;
+import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseModels.Meas;
+import com.example.tzadmin.tzsk_windows.HttpModule.Http;
+import com.example.tzadmin.tzsk_windows.HttpModule.HttpResp;
+import com.example.tzadmin.tzsk_windows.JsonModule.JSON;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         Database.SetUp(dbHelper.getReadableDatabase());
+
+        ArrayList<Meas> meases = new ArrayList<>();
+        Http http = new Http();
+        HttpResp resp = http.GET(helper.HTTP_QUERY_GETORDERS, Auth.login, Auth.passwd);
+        if(resp.Code == 200) {
+            meases = JSON.parse(resp.body);
+        }
+
+        ArrayList<Meas> test = meases;
     }
 
     @Override

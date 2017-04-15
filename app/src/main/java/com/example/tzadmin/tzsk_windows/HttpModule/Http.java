@@ -61,9 +61,9 @@ public class Http {
         @Override
         protected HttpResp doInBackground(String... params) {
             try {
-                URL url = new URL(helper.httpServer + params[helper.QUERY]);
+                URL url = new URL(helper.httpServer + params[helper.HTTP_PARAM_QUERY]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((params[helper.LOGIN] + ":" + params[helper.PASSWORD]).getBytes(), Base64.NO_WRAP ));
+                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((params[helper.HTTP_PARAM_LOGIN] + ":" + params[helper.HTTP_PARAM_PASSWORD]).getBytes(), Base64.NO_WRAP ));
                 connection.connect();
                 responce = new HttpResp();
                 responce.Code = connection.getResponseCode();
@@ -85,9 +85,9 @@ public class Http {
         @Override
         protected HttpResp doInBackground(String... params) {
             try {
-                URL url = new URL(helper.httpServer + params[helper.QUERY]);
+                URL url = new URL(helper.httpServer + params[helper.HTTP_PARAM_QUERY]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((params[helper.LOGIN] + ":" + params[helper.PASSWORD]).getBytes(), Base64.NO_WRAP ));
+                connection.setRequestProperty("Authorization", "Basic " + Base64.encodeToString((params[helper.HTTP_PARAM_LOGIN] + ":" + params[helper.HTTP_PARAM_PASSWORD]).getBytes(), Base64.NO_WRAP ));
                 connection.setReadTimeout(10000);
                 connection.setConnectTimeout(15000);
                 connection.setRequestMethod("POST");
@@ -96,7 +96,7 @@ public class Http {
 
                 OutputStream os = connection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(params[helper.POST_DATA]);
+                writer.write(params[helper.HTTP_PARAM_POST_DATA]);
                 writer.flush();
                 writer.close();
                 os.close();

@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 Http http = new Http();
-                HttpResp resp = http.GET(helper.QUERY_AUTH, _login, _password);
+                HttpResp resp = http.GET(helper.HTTP_QUERY_AUTH, _login, _password);
                 switch (resp.Code) {
                     case 200:
                         id = Database.insertUser(_login, _password);
