@@ -68,7 +68,7 @@ public class Http {
                 responce = new HttpResp();
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
-                if(responce.Code == 200)
+                if(responce.Code == helper.CODE_RESP_SERVER_OK)
                     responce.body = streamToString(connection.getInputStream());
                 return responce;
             } catch (IOException e) {
@@ -105,7 +105,7 @@ public class Http {
                 responce = new HttpResp();
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
-                if(responce.Code == 200)
+                if(responce.Code == helper.CODE_RESP_SERVER_OK)
                     responce.body = streamToString(connection.getInputStream());
                 return responce;
 

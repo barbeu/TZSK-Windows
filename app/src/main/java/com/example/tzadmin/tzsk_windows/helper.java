@@ -13,23 +13,23 @@ import java.util.Date;
 public class helper {
 
     /*enum codes resp server*/
-    public static int CODE_RESP_SERVER_OK = 200;
-    public static int CODE_RESP_SERVER_AUTH_ERROR = 401;
-    public static int CODE_RESP_SERVER_SERVER_ERROR = 500;
-    public static int CODE_RESP_SERVER_BAD_REQUEST = 400;
+    public static final int CODE_RESP_SERVER_OK = 200;
+    public static final int CODE_RESP_SERVER_AUTH_ERROR = 401;
+    public static final int CODE_RESP_SERVER_SERVER_ERROR = 500;
+    public static final int CODE_RESP_SERVER_BAD_REQUEST = 400;
 
     /*enum http params*/
-    public static int HTTP_PARAM_QUERY = 0;
-    public static int HTTP_PARAM_LOGIN = 1;
-    public static int HTTP_PARAM_PASSWORD = 2;
-    public static int HTTP_PARAM_POST_DATA = 3;
+    public static final int HTTP_PARAM_QUERY = 0;
+    public static final int HTTP_PARAM_LOGIN = 1;
+    public static final int HTTP_PARAM_PASSWORD = 2;
+    public static final int HTTP_PARAM_POST_DATA = 3;
 
     /*enum http query*/
-    public static String HTTP_QUERY_AUTH = "auth";
-    public static String HTTP_QUERY_GETORDERS = "getorders";
+    public static final String HTTP_QUERY_AUTH = "auth";
+    public static final String HTTP_QUERY_GETORDERS = "getorders";
 
     /*TODO httpServer add config*/
-    public static String httpServer = "http://192.168.0.251/tzsk_tst/hs/JavaMobileApp/AnyInquiry/?param=";
+    public static final String httpServer = "http://192.168.0.251/tzsk_tst/hs/JavaMobileApp/AnyInquiry/?param=";
 
     public static void message (Context context, MSG msg, Integer length) {
         String message = null;

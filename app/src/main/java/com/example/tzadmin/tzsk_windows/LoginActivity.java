@@ -52,11 +52,11 @@ public class LoginActivity extends AppCompatActivity {
                 Http http = new Http();
                 HttpResp resp = http.GET(helper.HTTP_QUERY_AUTH, _login, _password);
                 switch (resp.Code) {
-                    case 200:
+                    case helper.CODE_RESP_SERVER_OK:
                         id = Database.insertUser(_login, _password);
                         startMainActivity(id, _login, _password, dateLogin);
                         break;
-                    case 401:
+                    case helper.CODE_RESP_SERVER_AUTH_ERROR:
                         helper.message(this, helper.MSG.INCORRECT_AUTH_DATA, Toast.LENGTH_SHORT);
                         break;
                 }
