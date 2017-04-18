@@ -28,6 +28,7 @@ public class Database {
     }
 
     public static void insertMeases (ArrayList<Meas> meases, int user_id) {
+        deleteMeases();
         for (Meas meas : meases) {
             ContentValues cv = new ContentValues();
             cv.put("idUser", user_id);
@@ -42,6 +43,10 @@ public class Database {
             cv.put("Comment", meas.Comment);
             db.insert("tbMeas", null, cv);
         }
+    }
+
+    public static void deleteMeases () {
+        db.delete("tbMeas", null, null);
     }
 
     public static ArrayList<Meas> selectMeases(int user_id) {
