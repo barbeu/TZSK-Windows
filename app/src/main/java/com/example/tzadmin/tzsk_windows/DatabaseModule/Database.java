@@ -75,10 +75,9 @@ public class Database {
         Date date = new Date();
         cv.put("login", login);
         cv.put("password", password);
-        cv.put("dateLastLogin", date.getTime());
+        cv.put("autoLogin", 1);
         db.insert("tbUsers", null, cv);
-
-        User user = lastLoginUser();
+        User user = lastUserLogin();
         return user.id;
     }
 
@@ -86,13 +85,15 @@ public class Database {
         Cursor cursor = db.rawQuery("SELECT * FROM tbUsers WHERE login = ? AND password = ?", new String[] {login, password});
         if(cursor.getCount() == 0)
             return -1;
-        else
+        else {
+            cursor.moveToNext();
             return cursor.getInt(0);
+        }
     }
 
-    public static void updateUser (int id, Integer dateLastLogin) {
+    public static void updateUser (int id, Integer autoLogin) {
         ContentValues cv = new ContentValues();
-        cv.put("dateLastLogin", dateLastLogin);
+        cv.put("autoLogin", autoLogin);
         db.update("tbUsers", cv, "id = ?", new String[] { String.valueOf(id) });
     }
 
@@ -100,9 +101,8 @@ public class Database {
         db.delete("tbUsers", "id=" + id, null);
     }
 
-    public static User lastLoginUser () {
-
-        Cursor cursor = db.query("tbUsers", null, "dateLastLogin=(SELECT MAX(dateLastLogin))", null, null, null, null, null);
+    public static User lastUserLogin () {
+        Cursor cursor = db.query("tbUsers", null, "autoLogin=1", null, null, null, null, "1");
         if(cursor.getCount() == 0)
             return null;
         cursor.moveToNext();
@@ -110,7 +110,7 @@ public class Database {
         user.id = cursor.getInt(0);
         user.login = cursor.getString(1);
         user.password = cursor.getString(2);
-        user.dateLastLogin = cursor.getInt(3);
+        user.autoLogin = cursor.getInt(3);
         return user;
     }
 }

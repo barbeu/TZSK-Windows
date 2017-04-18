@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + "id integer primary key autoincrement,"
                 + "login text,"
                 + "password text,"
-                + "dateLastLogin integer" + ");");
+                + "autoLogin integer" + ");");
 
         db.execSQL("create table tbMeas ("
                 + "id integer primary key autoincrement,"

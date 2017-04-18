@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.tzadmin.tzsk_windows.AuthModule.Auth;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.Database;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseHelper;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseModels.User;
@@ -22,27 +24,27 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         tb_login = (EditText)findViewById(R.id.tb_login);
         tb_password = (EditText)findViewById(R.id.tb_password);
-
+        Auth.resetAuth();
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         Database.SetUp(dbHelper.getReadableDatabase());
-        User user = Database.lastLoginUser();
+        User user = Database.lastUserLogin();
 
         if(user != null) {
-            Integer dateLogin = helper.getTimeMili();
-            Database.updateUser(user.id, dateLogin);
-            startMainActivity(user.id, user.login, user.password, dateLogin);
+            Database.updateUser(user.id, 1);
+            startMainActivity(user.id, user.login, user.password, 1);
+            return;
         }
     }
 
     public void onClick (View view) {
         if(!tb_login.getText().toString().equals("") && !tb_password.getText().toString().equals("")) {
             String _login = tb_login.getText().toString(), _password = tb_password.getText().toString();
-            Integer dateLogin = helper.getTimeMili();
             int id = Database.isUserExist(_login, _password);
 
             if(id != -1) {
-                Database.updateUser(id, dateLogin);
-                startMainActivity(id, _login, _password, dateLogin);
+                Database.updateUser(id, 1);
+                startMainActivity(id, _login, _password, 1);
+                return;
             }
             else {
                 if (!helper.InetHasConnection(this)) {
@@ -54,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 switch (resp.Code) {
                     case helper.CODE_RESP_SERVER_OK:
                         id = Database.insertUser(_login, _password);
-                        startMainActivity(id, _login, _password, dateLogin);
+                        startMainActivity(id, _login, _password, 1);
                         break;
                     case helper.CODE_RESP_SERVER_AUTH_ERROR:
                         helper.message(this, helper.MSG.INCORRECT_AUTH_DATA, Toast.LENGTH_SHORT);

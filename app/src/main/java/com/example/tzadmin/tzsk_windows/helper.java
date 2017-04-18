@@ -55,11 +55,6 @@ public class helper {
         INCORRECT_AUTH_DATA
     }
 
-    public static Integer getTimeMili () {
-        Date date = new Date();
-        return (int)(long)date.getTime();
-    }
-
     public static boolean InetHasConnection(final Context context)
     {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);

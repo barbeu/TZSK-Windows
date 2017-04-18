@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity  {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity  {
         int id = item.getItemId();
         switch (id) {
             case R.id.btn_exit:
-                Database.deleteUser(Auth.id);
+                Database.updateUser(Auth.id, 0);
                 startLoginActivity();
                 break;
         }
@@ -90,10 +89,10 @@ public class MainActivity extends AppCompatActivity  {
                     Tab1Meases tab1 = new Tab1Meases();
                     return tab1;
                 case 1:
-                    //return tab2
+                    //tab2
                     return null;
                 case 2:
-                    //return tab3
+                    //tab3
                     return null;
                 default:
                     return null;
@@ -102,8 +101,8 @@ public class MainActivity extends AppCompatActivity  {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 1 total pages.
+            return 1;
         }
 
         @Override
