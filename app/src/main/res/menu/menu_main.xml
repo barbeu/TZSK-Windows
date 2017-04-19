@@ -4,8 +4,14 @@
     tools:context="com.example.tzadmin.tzsk_windows.MainActivity">
 
     <item
-        android:id="@+id/btn_exit"
-        android:title="@string/app_name"
-        android:icon="@android:drawable/presence_offline"
+        android:id="@+id/btn_refresh"
+        android:title="@string/btn_reload"
+        android:icon="@android:drawable/stat_notify_sync_noanim"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/btn_exit"
+        android:title="@string/btn_exit"
+        app:showAsAction="collapseActionView"/>
+
 </menu>

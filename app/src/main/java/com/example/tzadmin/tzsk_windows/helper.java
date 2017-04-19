@@ -4,13 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
-
-import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseModels.Meas;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created by tzadmin on 07.04.17.
@@ -77,5 +74,15 @@ public class helper {
             return true;
         }
         return false;
+    }
+
+    public static String streamToString(InputStream is) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            sb.append(line);
+        }
+        return sb.toString();
     }
 }

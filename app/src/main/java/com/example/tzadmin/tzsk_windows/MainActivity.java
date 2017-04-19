@@ -31,6 +31,11 @@ public class MainActivity extends AppCompatActivity  {
      */
     private ViewPager mViewPager;
 
+    /**
+     * The {@link Tab1Meases} table 1, show meases
+     */
+    private Tab1Meases tabMeases;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity  {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        tabMeases = new Tab1Meases();
     }
 
     @Override
@@ -61,14 +68,17 @@ public class MainActivity extends AppCompatActivity  {
         switch (id) {
             case R.id.btn_exit:
                 Database.updateUser(Auth.id, 0);
-                startLoginActivity();
+                starActivity(LoginActivity.class);
+                break;
+            case R.id.btn_refresh:
+                tabMeases.reloadMeases();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void startLoginActivity () {
-        startActivity(new Intent(this, LoginActivity.class));
+    private void starActivity (Class _class) {
+        startActivity(new Intent(this, _class));
         finish();
     }
 
@@ -86,13 +96,10 @@ public class MainActivity extends AppCompatActivity  {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    Tab1Meases tab1 = new Tab1Meases();
-                    return tab1;
+                    return tabMeases;
                 case 1:
-                    //tab2
                     return null;
                 case 2:
-                    //tab3
                     return null;
                 default:
                     return null;

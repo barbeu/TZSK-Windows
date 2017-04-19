@@ -3,11 +3,8 @@ package com.example.tzadmin.tzsk_windows.HttpModule;
 import android.os.AsyncTask;
 import android.util.Base64;
 import com.example.tzadmin.tzsk_windows.helper;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -20,16 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 public class Http {
     HttpResp responce = null;
-
-    private String streamToString(InputStream is) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        return sb.toString();
-    }
 
     public HttpResp GET (String query, String login, String password) {
         getTask task = new getTask();
@@ -69,7 +56,7 @@ public class Http {
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
                 if(responce.Code == helper.CODE_RESP_SERVER_OK)
-                    responce.body = streamToString(connection.getInputStream());
+                    responce.body = helper.streamToString(connection.getInputStream());
                 return responce;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -106,7 +93,7 @@ public class Http {
                 responce.Code = connection.getResponseCode();
                 responce.Message = connection.getResponseMessage();
                 if(responce.Code == helper.CODE_RESP_SERVER_OK)
-                    responce.body = streamToString(connection.getInputStream());
+                    responce.body = helper.streamToString(connection.getInputStream());
                 return responce;
 
             } catch (IOException e) {

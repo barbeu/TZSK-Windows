@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class JSON {
 
     public static ArrayList<Meas> parse (String json) {
+        if(json == null)
+            return null;
         ArrayList<Meas> meases = new ArrayList<>();
         try {
             JSONObject dataJsonObj = new JSONObject(json);
