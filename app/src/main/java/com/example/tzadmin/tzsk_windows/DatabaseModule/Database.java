@@ -49,6 +49,28 @@ public class Database {
         db.delete("tbMeas", null, null);
     }
 
+    public static Meas selectMeas (int id, int user_id) {
+        Cursor cursor = db.query("tbMeas", null, "id=" + id + " AND idUser=" + user_id, null, null, null, null, null);
+        Meas meas = new Meas();
+        if(cursor.moveToFirst()) {
+            meas.id = cursor.getInt(0);
+            meas.idUser = cursor.getInt(1);
+            meas.OrderID = cursor.getString(2);
+            meas.OrderNumber = cursor.getString(3);
+            meas.Client = cursor.getString(4);
+            meas.PhoneNumber = cursor.getString(5);
+            meas.Date = cursor.getString(6);
+            meas.Address = cursor.getString(7);
+            meas.TimeStart = cursor.getString(8);
+            meas.EndTime = cursor.getString(9);
+            meas.Comment = cursor.getString(10);
+            return meas;
+        } else {
+            return null;
+        }
+
+    }
+
     public static ArrayList<Meas> selectMeases(int user_id) {
 
         Cursor cursor = db.query("tbMeas", null, "idUser = " + user_id, null, null, null, null, null);

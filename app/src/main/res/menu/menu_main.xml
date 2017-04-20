@@ -5,13 +5,13 @@
 
     <item
         android:id="@+id/btn_refresh"
-        android:title="@string/btn_reload"
+        android:title="@string/btn_main_reload"
         android:icon="@android:drawable/stat_notify_sync_noanim"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/btn_exit"
-        android:title="@string/btn_exit"
+        android:title="@string/btn_main_exit"
         app:showAsAction="collapseActionView"/>
 
 </menu>

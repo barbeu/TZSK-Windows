@@ -1,5 +1,6 @@
 package com.example.tzadmin.tzsk_windows;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
@@ -50,7 +51,11 @@ public class Tab1Meases extends Fragment implements AdapterView.OnItemClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //start new MainActivity (show all parent records)
+        Meas meas = (Meas)parent.getItemAtPosition(position);
+        int idMeas = meas.id;
+        Intent intent = new Intent(getActivity(), MeasActivity.class);
+        intent.putExtra("id", idMeas);
+        startActivity(intent);
     }
 
     public void reloadMeases () {
@@ -71,6 +76,7 @@ public class Tab1Meases extends Fragment implements AdapterView.OnItemClickListe
             }
         } else {
             Database.insertMeases(meases, Auth.id);
+            meases = Database.selectMeases(Auth.id);
             tv.setText("Здравствуйте! " + Auth.login);
         }
 

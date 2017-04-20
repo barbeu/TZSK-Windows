@@ -8,10 +8,18 @@
     <string name="tb_password">Пароль</string>
 
     <!--Main Activity-->
-    <string name="btn_exit">Выйти</string>
-    <string name="btn_reload">Обновить</string>
+    <string name="btn_main_exit">Выйти</string>
+    <string name="btn_main_reload">Обновить</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!--Meas Activity-->
+    <string name="MeasActivity_name">ТЗСК</string>
+    <string name="btn_meas_send">Отправить</string>
+    <string name="btn_meas_call">Позвонить</string>
+    <string name="btn_meas_geo">Карта</string>
+    <string name="btn_meas_close">Назад</string>
+    <string name="btn_meas_camera">Камера</string>
 
 </resources>

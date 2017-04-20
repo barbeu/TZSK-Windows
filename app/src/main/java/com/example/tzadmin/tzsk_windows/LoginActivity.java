@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.tzadmin.tzsk_windows.AuthModule.Auth;
@@ -11,18 +12,22 @@ import com.example.tzadmin.tzsk_windows.DatabaseModule.Database;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseHelper;
 import com.example.tzadmin.tzsk_windows.DatabaseModule.DatabaseModels.User;
 import com.example.tzadmin.tzsk_windows.HttpModule.Http;
+import android.view.View.OnClickListener;
 import com.example.tzadmin.tzsk_windows.HttpModule.HttpResp;
 import static com.example.tzadmin.tzsk_windows.AuthModule.Auth.setAuth;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements OnClickListener {
 
     EditText tb_login, tb_password;
+    Button btn_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         tb_login = (EditText)findViewById(R.id.tb_login);
         tb_password = (EditText)findViewById(R.id.tb_password);
+        btn_login = (Button)findViewById(R.id.btn_login);
+        btn_login.setOnClickListener(this);
         Auth.resetAuth();
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         Database.SetUp(dbHelper.getReadableDatabase());
@@ -35,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void onClick (View view) {
         if(!tb_login.getText().toString().equals("") && !tb_password.getText().toString().equals("")) {
             String _login = tb_login.getText().toString(), _password = tb_password.getText().toString();
