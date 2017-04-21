@@ -51,7 +51,8 @@ public class BoxAdapter extends BaseAdapter {
         Meas p = getProduct(position);
 
         ((TextView) view.findViewById(R.id.meas_addres)).setText(p.Address);
-        ((TextView) view.findViewById(R.id.meas_date)).setText(p.Date + " - [" + p.TimeStart + "-" + p.EndTime + "]");
+        ((TextView) view.findViewById(R.id.meas_date)).setText(p.Date);
+        ((TextView) view.findViewById(R.id.meas_timeStart)).setText(p.TimeStart + "/" + p.EndTime);
         return view;
     }
 
